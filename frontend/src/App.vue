@@ -2,6 +2,10 @@
   <div class="container">
     <h1>StudyMate</h1>
 
+<p class="subtitle">
+Smart Student Planner
+</p>
+
     <input v-model="title" placeholder="Task Title" />
     <br><br>
 
@@ -28,6 +32,7 @@
 <br><br>
 
    <h2>Dashboard</h2>
+   <br>
 
    <p>Total Tasks: {{ tasks.length }}</p>
 
@@ -47,12 +52,6 @@
   :key="task.id"
 >
   <h3>{{ task.title }}</h3>
-
-<p>Due: {{ task.due_date }}</p>
-
-<p>Status: {{ task.status }}</p>
-
-<p>Priority: {{ task.priority }}</p>
 
   <p>
     <strong>Due Date:</strong>
