@@ -6,28 +6,45 @@
 Smart Student Planner
 </p>
 
-    <input v-model="title" placeholder="Task Title" />
+    <div class="form-section">
+
+  <h2>Add New Task</h2>
+
+  <input v-model="title" placeholder="Task Title" />
+
+  <input type="date" v-model="dueDate" />
+
+  <select v-model="priority">
+    <option>High</option>
+    <option>Medium</option>
+    <option>Low</option>
+  </select>
+
+  <button @click="addTask">Add Task</button>
+ 
+
+</div>
+
     <br><br>
 
-    <input type="date" v-model="dueDate" />
-    <br><br>
+    <div class="form-section">
+  <h2>Task Actions</h2>
+  <br>
 
-<select v-model="priority">
-  <option>High</option>
-  <option>Medium</option>
-  <option>Low</option>
-</select>
+  <button @click="loadTasks">
+    View Tasks
+  </button>
+</div>
 
-<br><br>
+  <br><br>
+   <div class="form-section">
+  <h2>Search Tasks</h2>
 
-    <button @click="addTask">Add Task</button>
-    <button @click="loadTasks">Load Tasks</button>
-
-    <br><br>
-    <input
-  v-model="search"
-  placeholder="Search tasks"
-/>
+  <input
+    v-model="search"
+    placeholder="Search tasks"
+  />
+</div>
 
 <br><br>
 
@@ -59,31 +76,33 @@ Smart Student Planner
   v-for="task in filteredTasks"
   :key="task.id"
 >
-  <h3>{{ task.title }}</h3>
+  <h2>{{ task.title }}</h2>
+  <br>
 
   <p>
     <strong>Due Date:</strong>
     {{ task.due_date.split("T")[0] }}
   </p>
 
-  <p>
-    <strong>Status:</strong>
+  <div class="status-row">
+  <strong>Status:</strong>
 
-    <select
-      :value="task.status"
-      @change="updateStatus(task.id, $event.target.value)"
-    >
-      <option>Pending</option>
-      <option>In Progress</option>
-      <option>Completed</option>
-    </select>
-  </p>
+  <select
+    class="status-select"
+    :value="task.status"
+    @change="updateStatus(task.id, $event.target.value)"
+  >
+    <option>Pending</option>
+    <option>In Progress</option>
+    <option>Completed</option>
+  </select>
+</div>
 
   <p>
   <strong>Priority:</strong>
   {{ task.priority }}
 </p>
-
+<br>
   <button @click="deleteTask(task.id)">
     Delete
   </button>
