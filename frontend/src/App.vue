@@ -31,20 +31,28 @@ Smart Student Planner
 
 <br><br>
 
-   <h2>Dashboard</h2>
-   <br>
+   <div class="dashboard">
 
-   <p>Total Tasks: {{ tasks.length }}</p>
+  <div class="stat-card">
+    <h2>{{ tasks.length }}</h2>
+    <p>Total Tasks</p>
+  </div>
 
-   <p>
-   Pending:
-   {{ tasks.filter(t => t.status === 'Pending').length }}
-   </p>
+  <div class="stat-card">
+    <h2>
+      {{ tasks.filter(t => t.status === 'Pending').length }}
+    </h2>
+    <p>Pending</p>
+  </div>
 
-   <p>
-   Completed:
-   {{ tasks.filter(t => t.status === 'Completed').length }}
-   </p>
+  <div class="stat-card">
+    <h2>
+      {{ tasks.filter(t => t.status === 'Completed').length }}
+    </h2>
+    <p>Completed</p>
+  </div>
+
+</div>
 
     <div
   class="task-card"
