@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>StudyMate</h1>
+    <h1>📚StudyMate</h1>
 
 <p class="subtitle">
 Smart Student Planner
@@ -14,11 +14,16 @@ Smart Student Planner
 
   <input type="date" v-model="dueDate" />
 
+  <button @click="suggestPriority">
+  Suggest Priority
+</button>
+
   <select v-model="priority">
     <option>High</option>
     <option>Medium</option>
     <option>Low</option>
   </select>
+
 
   <button @click="addTask">Add Task</button>
  
@@ -71,21 +76,37 @@ Smart Student Planner
 
 </div>
 
+<div class="progress-card">
+
+  <h2>Task Completion Progress</h2>
+  <br>
+
+  <p class="progress_percentage">{{ progressPercentage }}%</p>
+  
+  <div class="progress-bar">
+    <div
+      class="progress-fill"
+      :style="{ width: progressPercentage + '%' }"
+    ></div>
+  </div>
+
+</div>
+
     <div
   class="task-card"
   v-for="task in filteredTasks"
   :key="task.id"
 >
-  <h2>{{ task.title }}</h2>
+  <h3>{{ task.title }}</h3>
   <br>
 
-  <p>
-    <strong>Due Date:</strong>
-    {{ task.due_date.split("T")[0] }}
-  </p>
+  <p>📅 Due: {{ task.due_date.split("T")[0] }}</p>
 
-  <div class="status-row">
-  <strong>Status:</strong>
+  <p>📌 Status: {{ task.status }}</p>
+
+  <p>🔥 Priority: {{ task.priority }}</p>
+
+ <div class="actions">
 
   <select
     class="status-select"
@@ -96,17 +117,18 @@ Smart Student Planner
     <option>In Progress</option>
     <option>Completed</option>
   </select>
-</div>
 
-  <p>
-  <strong>Priority:</strong>
-  {{ task.priority }}
-</p>
-<br>
   <button @click="deleteTask(task.id)">
     Delete
   </button>
+
 </div>
+</div>
+
+<footer>
+  © 2026 StudyMate | Developed for DesignHer 2.0
+</footer>
+
   </div>
 </template>
 
@@ -175,5 +197,36 @@ const updateStatus = async (id, status) => {
   loadTasks();
 };
 
+const suggestPriority = () => {
+  if (!dueDate.value) return;
+
+  const today = new Date();
+  const due = new Date(dueDate.value);
+
+  const diffTime = due - today;
+  const diffDays = Math.ceil(
+    diffTime / (1000 * 60 * 60 * 24)
+  );
+
+  if (diffDays <= 2) {
+    priority.value = "High";
+  } else if (diffDays <= 7) {
+    priority.value = "Medium";
+  } else {
+    priority.value = "Low";
+  }
+};
+
+const progressPercentage = computed(() => {
+  if (tasks.value.length === 0) return 0;
+
+  const completedTasks = tasks.value.filter(
+    task => task.status === "Completed"
+  ).length;
+
+  return Math.round(
+    (completedTasks / tasks.value.length) * 100
+  );
+});
 
 </script>
