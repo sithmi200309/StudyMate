@@ -22,14 +22,21 @@ app.listen(5000, () => {
 });
 
 app.post("/tasks", (req, res) => {
-  const { title, description, due_date, status, priority } = req.body;
+ const {
+  title,
+  description,
+  due_date,
+  status,
+  priority,
+  category
+} = req.body;
 
   const sql =
-    "INSERT INTO tasks (title, description, due_date, status, priority) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO tasks (title, description, due_date, status, priority,category) VALUES (?, ?, ?, ?, ?, ?)";
 
   db.query(
     sql,
-    [title, description, due_date, status, priority],
+    [title, description, due_date, status, priority, category],
     (err, result) => {
       if (err) {
         res.status(500).send(err);

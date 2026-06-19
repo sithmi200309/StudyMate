@@ -202,3 +202,42 @@ footer {
   text-align: center;
   font-size: 25px;
 }
+
+.upcoming-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.deadline-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.deadline-item:last-child {
+  border-bottom: none;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overdue-badge {
+  background: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.overdueCard {
+  border-left: 6px solid #ef4444;
+}
+

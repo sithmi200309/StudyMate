@@ -24,9 +24,16 @@ Smart Student Planner
     <option>Low</option>
   </select>
 
+<select v-model="category">
+  <option>Academic</option>
+  <option>Assignment</option>
+  <option>Lab</option>
+  <option>Project</option>
+  <option>Exam</option>
+</select>
 
   <button @click="addTask">Add Task</button>
- 
+
 
 </div>
 
@@ -76,6 +83,33 @@ Smart Student Planner
 
 </div>
 
+<div class="upcoming-card">
+
+  <h2>⚠️ Upcoming Deadlines</h2>
+
+  <div
+    v-for="task in upcomingTasks"
+    :key="task.id"
+    class="deadline-item"
+  >
+    <strong>{{ task.title }}</strong>
+
+   <span
+  :style="{
+    color:
+      getDaysLeft(task.due_date) === 'Today' ||
+      getDaysLeft(task.due_date) === 'Tomorrow'
+        ? 'red'
+        : 'black'
+  }"
+>
+  {{ getDaysLeft(task.due_date) }}
+</span>
+
+  </div>
+
+</div>
+
 <div class="progress-card">
 
   <h2>Task Completion Progress</h2>
@@ -94,13 +128,31 @@ Smart Student Planner
 
     <div
   class="task-card"
+  :class="{
+    overdueCard: isOverdue(task.due_date, task.status)
+  }"
   v-for="task in filteredTasks"
   :key="task.id"
 >
+  <div class="task-header">
   <h3>{{ task.title }}</h3>
+
+  <span
+    v-if="isOverdue(task.due_date, task.status)"
+    class="overdue-badge"
+  >
+    OVERDUE!
+  </span>
+</div>
   <br>
 
   <p>📅 Due: {{ task.due_date.split("T")[0] }}</p>
+
+  <p>
+  <span class="category-badge">
+    📂 {{ task.category }}
+  </span>
+</p>
 
   <p>📌 Status: {{ task.status }}</p>
 
@@ -140,6 +192,7 @@ const title = ref("");
 const dueDate = ref("");
 const priority = ref("Medium");
 const search = ref("");
+const category = ref("Academic");
 
 const filteredTasks = computed(() => {
   return tasks.value.filter(task =>
@@ -165,13 +218,15 @@ const addTask = async () => {
   description: "",
   due_date: dueDate.value,
   status: "Pending",
-  priority: priority.value
+  priority: priority.value,
+  category: category.value
 })
   });
 
   title.value = "";
-  dueDate.value = "";
-  priority.value = "Medium";
+dueDate.value = "";
+priority.value = "Medium";
+category.value = "Academic";
   loadTasks();
 };
 
@@ -228,5 +283,46 @@ const progressPercentage = computed(() => {
     (completedTasks / tasks.value.length) * 100
   );
 });
+
+const upcomingTasks = computed(() => {
+  const today = new Date();
+
+  return tasks.value
+    .filter(task => {
+      const dueDate = new Date(task.due_date);
+      return dueDate >= today;
+    })
+    .sort((a, b) => {
+      return new Date(a.due_date) - new Date(b.due_date);
+    })
+    .slice(0, 5);
+});
+
+const getDaysLeft = (dueDate) => {
+  const today = new Date();
+  const due = new Date(dueDate);
+
+  const diffTime = due - today;
+  const diffDays = Math.ceil(
+    diffTime / (1000 * 60 * 60 * 24)
+  );
+
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Tomorrow";
+
+  return `${diffDays} days left`;
+};
+
+const isOverdue = (dueDate, status) => {
+  if (status === "Completed") return false;
+
+  const today = new Date();
+  const due = new Date(dueDate);
+
+  today.setHours(0, 0, 0, 0);
+  due.setHours(0, 0, 0, 0);
+
+  return due < today;
+};
 
 </script>
