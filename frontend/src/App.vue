@@ -32,7 +32,9 @@ Smart Student Planner
   <option>Exam</option>
 </select>
 
-  <button @click="addTask">Add Task</button>
+  <button class="add-task-btn" @click="addTask">
+  Add Task
+</button>
 
 
 </div>
@@ -50,12 +52,29 @@ Smart Student Planner
 
   <br><br>
    <div class="form-section">
+
   <h2>Search Tasks</h2>
 
   <input
     v-model="search"
     placeholder="Search tasks"
   />
+<h2 >
+Filter by Category
+</h2>
+  <select v-model="categoryFilter">
+    <option>All</option>
+    <option>Academic</option>
+    <option>Assignment</option>
+    <option>Lab</option>
+    <option>Project</option>
+    <option>Exam</option>
+  </select>
+
+  <p>
+    Showing {{ filteredTasks.length }} task(s)
+  </p>
+
 </div>
 
 <br><br>
@@ -79,6 +98,22 @@ Smart Student Planner
       {{ tasks.filter(t => t.status === 'Completed').length }}
     </h2>
     <p>Completed</p>
+  </div>
+
+</div>
+
+<div class="progress-card">
+
+  <h2>Task Completion Progress</h2>
+  <br>
+
+  <p class="progress_percentage">{{ progressPercentage }}%</p>
+  
+  <div class="progress-bar">
+    <div
+      class="progress-fill"
+      :style="{ width: progressPercentage + '%' }"
+    ></div>
   </div>
 
 </div>
@@ -110,24 +145,11 @@ Smart Student Planner
 
 </div>
 
-<div class="progress-card">
-
-  <h2>Task Completion Progress</h2>
-  <br>
-
-  <p class="progress_percentage">{{ progressPercentage }}%</p>
-  
-  <div class="progress-bar">
-    <div
-      class="progress-fill"
-      :style="{ width: progressPercentage + '%' }"
-    ></div>
-  </div>
-
+<div v-if="filteredTasks.length === 0" class="no-results">
+  🔍 No matching tasks found
 </div>
 
-    <div
-  class="task-card"
+    <div class="task-card"
   :class="{
     overdueCard: isOverdue(task.due_date, task.status)
   }"
@@ -193,13 +215,23 @@ const dueDate = ref("");
 const priority = ref("Medium");
 const search = ref("");
 const category = ref("Academic");
+const categoryFilter = ref("All");
 
 const filteredTasks = computed(() => {
-  return tasks.value.filter(task =>
-    task.title
-      .toLowerCase()
-      .includes(search.value.toLowerCase())
-  );
+  return tasks.value.filter(task => {
+
+    const matchesSearch =
+      task.title
+        .toLowerCase()
+        .includes(search.value.toLowerCase());
+
+    const matchesCategory =
+      categoryFilter.value === "All" ||
+      task.category === categoryFilter.value;
+
+    return matchesSearch && matchesCategory;
+
+  });
 });
 
 const loadTasks = async () => {
