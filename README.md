@@ -32,6 +32,10 @@ By providing task organization and deadline management features, StudyMate helps
 
 * MySQL
 
+### Deployment & Hosting
+* Vercel (Frontend Hosting)
+* Railway (Backend & Database Hosting)
+
 ### Development Tools
 
 * Visual Studio Code
@@ -43,6 +47,8 @@ By providing task organization and deadline management features, StudyMate helps
 * Vue.js used for reactive user interface development.
 * Express.js used to create REST API endpoints.
 * MySQL used for task data storage and retrieval.
+* Railway used to deploy the backend server and MySQL database.
+* Vercel used to deploy the frontend application.
 * GitHub used for version control and project management.
 
 ## Architectural Diagram
@@ -65,11 +71,17 @@ By providing task organization and deadline management features, StudyMate helps
 ## Deployment URL
 
 Frontend URL:
-https://your-vercel-url.vercel.app
+https://study-mate-orpin.vercel.app/
 
 Backend API:
 https://studymate-production-f6e1.up.railway.app
 
+API Test:
+https://studymate-production-f6e1.up.railway.app/tasks
+
 ## Author
 
 Rathanayke M.S.S.
+Computer Engineering
+Faculty of Engineering
+University of Ruhuna.
