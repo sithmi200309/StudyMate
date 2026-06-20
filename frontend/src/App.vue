@@ -235,12 +235,12 @@ const filteredTasks = computed(() => {
 });
 
 const loadTasks = async () => {
-  const response = await fetch("http://localhost:5000/tasks");
+  const response = await fetch("http://studymate-production-f6e1.up.railway.app/tasks");
   tasks.value = await response.json();
 };
 
 const addTask = async () => {
-  await fetch("http://localhost:5000/tasks", {
+  await fetch("http://studymate-production-f6e1.up.railway.app/tasks", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -263,7 +263,7 @@ category.value = "Academic";
 };
 
 const deleteTask = async (id) => {
-  await fetch(`http://localhost:5000/tasks/${id}`, {
+  await fetch(`http://studymate-production-f6e1.up.railway.app/tasks/${id}`, {
     method: "DELETE"
   });
 
@@ -271,7 +271,7 @@ const deleteTask = async (id) => {
 };
 
 const updateStatus = async (id, status) => {
-  await fetch(`http://localhost:5000/tasks/${id}`, {
+  await fetch(`http://studymate-production-f6e1.up.railway.app/tasks/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json"
