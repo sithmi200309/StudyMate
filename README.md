@@ -64,4 +64,12 @@ By providing task organization and deadline management features, StudyMate helps
 
 ## Deployment URL
 
-Deployment will be added after hosting the application.
+Frontend URL:
+https://your-vercel-url.vercel.app
+
+Backend API:
+https://studymate-production-f6e1.up.railway.app
+
+## Author
+
+Rathanayke M.S.S.
