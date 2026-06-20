@@ -10,7 +10,7 @@ app.use(express.json());
 app.get("/tasks", (req, res) => {
   db.query("SELECT * FROM tasks", (err, results) => {
     if (err) {
-      res.status(500).seqnd(err);
+      res.status(500).send(err);
     } else {
       res.json(results);
     }
